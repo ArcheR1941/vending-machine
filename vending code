@@ -1,0 +1,53 @@
+class VendingMachine:
+    def __init__(self):
+        self.inventory = {
+            'Coke': 10,
+            'Snacks': 8,
+            'Water': 15,
+            'Chocolates': 12
+        }
+        self.prices = {
+            'Coke': 1.50,
+            'Snacks': 1.00,
+            'Water': 1.25,
+            'Chocolates': 1.75
+        }
+
+    def display_menu(self):
+        print("Available Items:")
+        for item, stock in self.inventory.items():
+            print(f"{item}: ${self.prices[item]:.2f} ({stock} available)")
+
+    def purchase_item(self, item, quantity):
+        if item in self.inventory and quantity > 0:
+            if self.inventory[item] >= quantity:
+                cost = self.prices[item] * quantity
+                print(f"Total cost: ${cost:.2f}")
+
+                confirm = input("Confirm purchase? (yes/no): ").lower()
+                if confirm == 'yes':
+                    self.inventory[item] -= quantity
+                    print(f"You purchased {quantity} {item}(s). Thank you!")
+                else:
+                    print("Transaction canceled.")
+            else:
+                print("Insufficient stock.")
+        else:
+            print("Invalid item or quantity.")
+
+def main():
+    vending_machine = VendingMachine()
+
+    while True:
+        vending_machine.display_menu()
+        item = input("Enter the item you want to purchase (or 'exit' to end): ").capitalize()
+
+        if item == 'Exit':
+            break
+
+        quantity = int(input(f"Enter the quantity of {item} you want to purchase: "))
+
+        vending_machine.purchase_item(item, quantity)
+
+if __name__ == "__main__":
+    main()
